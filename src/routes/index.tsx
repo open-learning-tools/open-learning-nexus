@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect } from "react";
 import oltLogo from "@/assets/olt-logo.png";
 
 export const Route = createFileRoute("/")({
@@ -47,6 +48,23 @@ function Logo({ className = "", showText = true }: { className?: string; showTex
 }
 
 function Index() {
+  useEffect(() => {
+    const els = document.querySelectorAll<HTMLElement>(".reveal");
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("is-visible");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
   return (
     <div className="min-h-screen">
       {/* Nav */}
@@ -67,7 +85,7 @@ function Index() {
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 hero-grid pointer-events-none" aria-hidden />
         <div className="container-prose relative pt-24 pb-28 md:pt-36 md:pb-40">
-          <div className="max-w-4xl">
+          <div className="max-w-4xl hero-in">
             <p className="eyebrow mb-6">Open source learning analytics · olt.academy</p>
             <h1 className="display text-5xl md:text-7xl">
               Every learning moment,<br />
@@ -100,9 +118,11 @@ function Index() {
               {[...Array(7)].map((_, i) => (
                 <line
                   key={i}
+                  className="stream-line"
+                  style={{ animationDelay: `${i * 0.18}s` }}
                   x1={60 + i * 110} y1="20"
                   x2="400" y2="120"
-                  stroke="oklch(0.32 0.09 255)" strokeOpacity="0.18" strokeWidth="1"
+                  stroke="oklch(0.32 0.09 255)" strokeWidth="1"
                 />
               ))}
               {[...Array(7)].map((_, i) => (
@@ -124,7 +144,7 @@ function Index() {
 
       {/* Problem */}
       <section className="border-t hairline">
-        <div className="container-prose py-24 md:py-32 grid md:grid-cols-12 gap-10">
+        <div className="container-prose py-24 md:py-32 grid md:grid-cols-12 gap-10 reveal">
           <div className="md:col-span-4">
             <p className="eyebrow">The Problem</p>
           </div>
@@ -148,15 +168,19 @@ function Index() {
       {/* Platform */}
       <section id="platform" className="border-t hairline bg-secondary/40">
         <div className="container-prose py-24 md:py-32">
-          <div className="max-w-2xl mb-14">
+          <div className="max-w-2xl mb-14 reveal">
             <p className="eyebrow mb-4">The Platform</p>
             <h2 className="display text-4xl md:text-5xl">
               Seven open source tools.<br />One coherent learning record.
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {tools.map((t) => (
-              <div key={t.name} className="tool-card">
+            {tools.map((t, i) => (
+              <div
+                key={t.name}
+                className="tool-card reveal"
+                style={{ ["--reveal-delay" as string]: `${i * 70}ms` }}
+              >
                 <div className="tool-icon mb-5">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d={t.icon} />
