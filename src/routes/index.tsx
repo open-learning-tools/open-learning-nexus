@@ -53,6 +53,7 @@ function Logo({ className = "", size = "md" }: { className?: string; size?: "md"
 
 function Index() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const userInitiatedRef = useRef(false);
   const [musicStarted, setMusicStarted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -78,7 +79,6 @@ function Index() {
     audio.loop = true;
     audio.volume = 0.5;
     audioRef.current = audio;
-    let userInitiated = false;
     audio.addEventListener("play", () => {
       setMusicStarted(true);
       setIsPlaying(true);
@@ -86,9 +86,9 @@ function Index() {
     });
     audio.addEventListener("pause", () => {
       setIsPlaying(false);
-      // Only persist "paused" when the user actually paused (not on unmount cleanup).
-      if (userInitiated) {
+      if (userInitiatedRef.current) {
         try { localStorage.setItem(STORAGE_KEY, "paused"); } catch {}
+        userInitiatedRef.current = false;
       }
     });
 
@@ -143,7 +143,8 @@ function Index() {
   const toggleMusic = () => {
     const a = audioRef.current;
     if (!a) return;
-    if (a.paused) a.play().catch(() => {});
+    userInitiatedRef.current = true;
+    if (a.paused) a.play().catch(() => { userInitiatedRef.current = false; });
     else a.pause();
   };
 
