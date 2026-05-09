@@ -722,3 +722,33 @@ header nav a:hover::after {
 @media (prefers-reduced-motion: reduce) {
   .hero-aurora, .hero-mesh { animation: none !important; }
 }
+
+/* Music toggle fade-in */
+.music-toggle {
+  opacity: 0;
+  transform: scale(0.85);
+  pointer-events: none;
+  position: relative;
+}
+.music-toggle-visible {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.music-pulse {
+  position: absolute;
+  inset: -2px;
+  border-radius: 9999px;
+  border: 1px solid var(--accent-amber);
+  opacity: 0;
+  animation: musicPulse 1.8s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes musicPulse {
+  0%   { transform: scale(0.9); opacity: 0.7; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .music-pulse { animation: none !important; }
+}
