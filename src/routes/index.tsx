@@ -85,6 +85,11 @@ function Index() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 hero-grid pointer-events-none" aria-hidden />
+        <div className="ambient-blobs pointer-events-none" aria-hidden>
+          <span className="blob blob-a" />
+          <span className="blob blob-b" />
+          <span className="blob blob-c" />
+        </div>
         <div className="container-prose relative pt-24 pb-28 md:pt-36 md:pb-40">
           <div className="max-w-4xl hero-in">
             <p className="eyebrow mb-6">Open source learning analytics · olt.academy</p>
