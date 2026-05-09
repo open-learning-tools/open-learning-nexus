@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 import oltLogo from "@/assets/olt-logo.png";
+import problemSilos from "@/assets/problem-silos.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
