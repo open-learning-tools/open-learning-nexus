@@ -132,7 +132,18 @@ function Index() {
             <a href="#researchers" className="hover:text-foreground transition-colors">Researchers</a>
             <a href="#open-source" className="hover:text-foreground transition-colors">Open Source</a>
           </nav>
-          <a href="#demo" className="btn btn-primary text-xs px-4 py-2">Request a Demo</a>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={toggleMusic}
+              aria-label={isPlaying ? "Pause music" : "Play music"}
+              className={`music-toggle inline-flex items-center justify-center h-9 w-9 rounded-full border hairline bg-background/70 text-foreground hover:bg-secondary transition-all ${musicStarted ? "music-toggle-visible" : ""}`}
+            >
+              {isPlaying ? <Pause size={14} /> : <Play size={14} className="ml-0.5" />}
+              {isPlaying && <span className="music-pulse" aria-hidden />}
+            </button>
+            <a href="#demo" className="btn btn-primary text-xs px-4 py-2">Request a Demo</a>
+          </div>
         </div>
       </header>
 
