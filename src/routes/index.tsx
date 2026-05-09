@@ -312,16 +312,19 @@ function Index() {
       </section>
 
       {/* Open Source */}
-      <section id="open-source" className="border-t hairline bg-secondary/40">
-        <div className="container-prose py-24 md:py-32">
+      <section id="open-source" className="relative overflow-hidden border-t hairline bg-secondary/40">
+        <div className="amb-dots" aria-hidden>
+          <span /><span /><span /><span /><span /><span />
+        </div>
+        <div className="container-prose relative py-24 md:py-32">
           <div className="grid md:grid-cols-12 gap-10">
-            <div className="md:col-span-5">
+            <div className="md:col-span-5 reveal">
               <p className="eyebrow">Open Source</p>
               <h2 className="display text-4xl md:text-5xl mt-4">
-                MIT-licensed.<br />Forkable. Yours.
+                <span className="heading-underline">MIT-licensed.</span><br />Forkable. Yours.
               </h2>
             </div>
-            <div className="md:col-span-7">
+            <div className="md:col-span-7 reveal">
               <p className="text-lg text-muted-foreground leading-relaxed">
                 OLT Academy is MIT-licensed open source — free to use, modify, and self-host
                 without restriction. The full instrumentation layer, LRS pipeline, and SSO
@@ -345,10 +348,14 @@ function Index() {
       </section>
 
       {/* Demo CTA */}
-      <section id="demo" className="border-t hairline">
-        <div className="container-prose py-24 md:py-28 text-center">
+      <section id="demo" className="relative overflow-hidden border-t hairline">
+        <div className="ambient-blobs" aria-hidden>
+          <span className="blob blob-a" />
+          <span className="blob blob-c" />
+        </div>
+        <div className="container-prose relative py-24 md:py-28 text-center reveal">
           <h2 className="display text-4xl md:text-6xl max-w-3xl mx-auto">
-            See what your students' learning actually looks like.
+            <span className="shimmer-text">See what your students' learning actually looks like.</span>
           </h2>
           <div className="mt-10 flex justify-center gap-3 flex-wrap">
             <a href="mailto:team@olt.academy" className="btn btn-primary">Request a Demo</a>
