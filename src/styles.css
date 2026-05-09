@@ -497,3 +497,175 @@ footer .sr-only + img, footer img[alt*="logo"] {
   background-size: 56px 56px;
   mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black 40%, transparent 80%);
 }
+
+/* ============ Extra motion pass ============ */
+
+/* Blinking caret next to italic word */
+.caret {
+  display: inline-block;
+  width: 3px;
+  height: 0.9em;
+  margin-left: 4px;
+  background: var(--accent-amber);
+  vertical-align: -0.05em;
+  animation: caretBlink 1.05s steps(1) infinite;
+  border-radius: 1px;
+}
+@keyframes caretBlink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Floating tool chips behind hero */
+.float-chip {
+  position: absolute;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  background: oklch(1 0 0 / 0.6);
+  color: var(--navy);
+  border: 1px solid var(--hairline);
+  backdrop-filter: blur(4px);
+  white-space: nowrap;
+  opacity: 0.75;
+  animation: chipFloat 14s ease-in-out infinite;
+  will-change: transform;
+}
+@keyframes chipFloat {
+  0%, 100% { transform: translate(0, 0) rotate(var(--rot, 0deg)); }
+  50%      { transform: translate(var(--dx, 12px), var(--dy, -18px)) rotate(var(--rot, 0deg)); }
+}
+
+/* Marquee ticker */
+.marquee {
+  position: relative;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+}
+.marquee-track {
+  display: inline-flex;
+  gap: 2.5rem;
+  padding-block: 0.25rem;
+  white-space: nowrap;
+  animation: marqueeScroll 32s linear infinite;
+  will-change: transform;
+}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-item {
+  font-size: 0.95rem;
+  color: var(--muted-foreground);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+.marquee-item .dot {
+  width: 5px; height: 5px; border-radius: 9999px;
+  background: var(--hairline);
+}
+.marquee-item.olt {
+  color: var(--navy);
+  font-weight: 600;
+}
+.marquee-item.olt .dot { background: var(--accent-amber); animation: dotPulse 1.6s ease-in-out infinite; }
+@keyframes dotPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.8); opacity: 0.6; }
+}
+
+/* Tool card animated gradient border */
+.tool-card { position: relative; isolation: isolate; }
+.tool-card::before {
+  content: "";
+  position: absolute; inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    transparent 0deg,
+    oklch(0.70 0.10 200 / 0.7) 60deg,
+    transparent 120deg,
+    oklch(0.55 0.13 250 / 0.5) 240deg,
+    transparent 320deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+.tool-card:hover::before {
+  opacity: 1;
+  animation: borderSpin 4s linear infinite;
+}
+@keyframes borderSpin {
+  to { --angle: 360deg; }
+}
+
+/* Problem image: subtle floating + tilt on hover */
+.problem-img-wrap {
+  animation: floatGentle 7s ease-in-out infinite;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.problem-img-wrap:hover {
+  transform: perspective(1200px) rotateY(-4deg) rotateX(2deg) scale(1.02);
+}
+@keyframes floatGentle {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+/* Wavy section divider */
+.wave-divider {
+  display: block;
+  width: 100%;
+  height: 36px;
+  color: var(--hairline);
+}
+.wave-divider path {
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  animation: waveDraw 6s ease-in-out infinite alternate;
+}
+@keyframes waveDraw {
+  from { stroke-dashoffset: 1200; }
+  to   { stroke-dashoffset: 0; }
+}
+
+/* Nav link underline grow */
+header nav a {
+  position: relative;
+}
+header nav a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -4px;
+  width: 100%; height: 1px;
+  background: var(--accent-amber);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+header nav a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caret, .float-chip, .marquee-track, .tool-card::before,
+  .problem-img-wrap, .wave-divider path, .marquee-item.olt .dot {
+    animation: none !important;
+  }
+}
