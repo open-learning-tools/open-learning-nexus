@@ -78,6 +78,7 @@ function Index() {
     audio.loop = true;
     audio.volume = 0.5;
     audioRef.current = audio;
+    let userInitiated = false;
     audio.addEventListener("play", () => {
       setMusicStarted(true);
       setIsPlaying(true);
@@ -85,7 +86,10 @@ function Index() {
     });
     audio.addEventListener("pause", () => {
       setIsPlaying(false);
-      try { localStorage.setItem(STORAGE_KEY, "paused"); } catch {}
+      // Only persist "paused" when the user actually paused (not on unmount cleanup).
+      if (userInitiated) {
+        try { localStorage.setItem(STORAGE_KEY, "paused"); } catch {}
+      }
     });
 
     // If the user previously had it playing, surface the toggle right away.
