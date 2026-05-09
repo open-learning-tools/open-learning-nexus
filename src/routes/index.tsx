@@ -35,6 +35,7 @@ export const Route = createFileRoute("/")({
 type Tool = {
   name: string;
   desc: string;
+  href: string;
   icon: string;
   logo?: string;
   logoClass?: string;
@@ -43,45 +44,52 @@ type Tool = {
 const tools: Tool[] = [
   {
     name: "Hypothesis",
-    desc: "Annotate textbooks and readings",
+    desc: "Perusall-style annotation for textbooks and readings",
+    href: "https://web.hypothes.is/",
     logo: "https://d242fdlp0qlcia.cloudfront.net/uploads/brand/HypothesisIconColor.svg",
     icon: "M4 4h12l4 4v12H4z M16 4v4h4",
   },
   {
     name: "PeerTube",
-    desc: "Watch and engage with instructional video",
+    desc: "YouTube-style instructional video hosting and engagement",
+    href: "https://joinpeertube.org/",
     logo: "https://joinpeertube.org/img/peertube-logo-background.svg",
     icon: "M8 5v14l11-7z",
   },
   {
     name: "CryptPad",
-    desc: "Collaborate on documents and slides",
+    desc: "Google Docs-style collaboration on documents and slides",
+    href: "https://cryptpad.org/",
     logo: "https://cdn.simpleicons.org/cryptpad/0087FF",
     icon: "M6 4h9l5 5v11H6z M14 4v6h6",
   },
   {
     name: "Scholarsome",
-    desc: "Practice with flashcards",
+    desc: "Quizlet-style flashcard practice",
+    href: "https://www.scholarsome.com/",
     logo: scholarsomeLogo,
     logoClass: "tool-logo-crop-left",
     icon: "M3 7h14v12H3z M7 4h14v12",
   },
   {
     name: "H5P",
-    desc: "Complete interactive quizzes",
+    desc: "Kahoot-style interactive quizzes",
+    href: "https://h5p.org/",
     logo: "https://cdn.worldvectorlogo.com/logos/h5p.svg",
     logoClass: "tool-logo-wide",
     icon: "M9 11l3 3 7-7 M3 12a9 9 0 1018 0 9 9 0 00-18 0",
   },
   {
     name: "code-server",
-    desc: "Write and run code in the browser",
+    desc: "GitHub Codespaces-style coding in the browser",
+    href: "https://github.com/coder/code-server",
     logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/code-server.png",
     icon: "M8 6l-6 6 6 6 M16 6l6 6-6 6 M14 4l-4 16",
   },
   {
     name: "LibreChat",
-    desc: "Learn with an AI tutor",
+    desc: "ChatGPT-style AI tutoring",
+    href: "https://www.librechat.ai/",
     logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/librechat.svg",
     icon: "M21 11a8 8 0 01-12.6 6.5L3 19l1.5-5.4A8 8 0 1121 11z",
   },
@@ -433,9 +441,13 @@ function Index() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {tools.map((t, i) => (
-              <div
+              <a
                 key={t.name}
+                href={t.href}
+                target="_blank"
+                rel="noreferrer"
                 className="tool-card reveal"
+                aria-label={`Visit ${t.name}`}
                 style={{ ["--reveal-delay" as string]: `${i * 70}ms` }}
               >
                 <div className="tool-icon mb-5">
@@ -464,7 +476,7 @@ function Index() {
                 </div>
                 <h3 className="font-semibold text-lg">{t.name}</h3>
                 <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">{t.desc}</p>
-              </div>
+              </a>
             ))}
           </div>
           <div className="mt-12 max-w-2xl">
