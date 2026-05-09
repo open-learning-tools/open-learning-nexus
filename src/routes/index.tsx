@@ -52,6 +52,10 @@ function Logo({ className = "", size = "md" }: { className?: string; size?: "md"
 }
 
 function Index() {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [musicStarted, setMusicStarted] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+
   useEffect(() => {
     const els = document.querySelectorAll<HTMLElement>(".reveal");
     const io = new IntersectionObserver(
@@ -67,17 +71,22 @@ function Index() {
     );
     els.forEach((el) => io.observe(el));
 
-    // Play ambient track on first scroll-down from the top
     const audio = new Audio(learningCrown);
     audio.loop = true;
     audio.volume = 0.5;
+    audioRef.current = audio;
+    audio.addEventListener("play", () => {
+      setMusicStarted(true);
+      setIsPlaying(true);
+    });
+    audio.addEventListener("pause", () => setIsPlaying(false));
+
     let started = false;
     const tryPlay = () => {
       if (started) return;
       if (window.scrollY > 0) {
         started = true;
         audio.play().catch(() => {
-          // Autoplay blocked — start on next user gesture
           const onGesture = () => {
             audio.play().catch(() => {});
             window.removeEventListener("pointerdown", onGesture);
@@ -103,6 +112,13 @@ function Index() {
       audio.pause();
     };
   }, []);
+
+  const toggleMusic = () => {
+    const a = audioRef.current;
+    if (!a) return;
+    if (a.paused) a.play().catch(() => {});
+    else a.pause();
+  };
 
   return (
     <div className="min-h-screen">
