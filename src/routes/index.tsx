@@ -154,10 +154,20 @@ function Index() {
       {/* Problem */}
       <section className="border-t hairline">
         <div className="container-prose py-24 md:py-32 grid md:grid-cols-12 gap-10 reveal">
-          <div className="md:col-span-4">
-            <p className="eyebrow">The Problem</p>
+          <div className="md:col-span-5">
+            <p className="eyebrow mb-6">The Problem</p>
+            <div className="rounded-lg overflow-hidden border hairline bg-secondary/30 problem-img-wrap">
+              <img
+                src={problemSilos}
+                alt="Fragmented learning data trapped in disconnected silos"
+                width={1280}
+                height={960}
+                loading="lazy"
+                className="w-full h-auto block"
+              />
+            </div>
           </div>
-          <div className="md:col-span-8">
+          <div className="md:col-span-7">
             <p className="display text-3xl md:text-4xl leading-tight">
               Today's learning runs on closed platforms. The data they generate is locked away from the people who could learn from it.
             </p>
