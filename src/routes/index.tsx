@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
 import oltLogo from "@/assets/olt-logo.png";
-import problemSilos from "@/assets/problem-silos.jpg";
+import problemSilos from "@/assets/problem-silos.png";
 import learningCrown from "@/assets/learning-crown.mp3";
 
 export const Route = createFileRoute("/")({
@@ -230,8 +230,8 @@ function Index() {
               <img
                 src={problemSilos}
                 alt="Fragmented learning data trapped in disconnected silos"
-                width={1024}
-                height={1024}
+                width={1664}
+                height={936}
                 loading="lazy"
                 className="w-full h-auto block"
               />
