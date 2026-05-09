@@ -545,17 +545,24 @@ footer .sr-only + img, footer img[alt*="logo"] {
   mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
 }
 .marquee-track {
-  display: inline-flex;
-  gap: 2.5rem;
+  display: flex;
+  width: max-content;
   padding-block: 0.25rem;
   white-space: nowrap;
-  animation: marqueeScroll 32s linear infinite;
+  animation: marqueeScroll 38s linear infinite;
   will-change: transform;
+}
+.marquee-group {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  padding-right: 2.5rem;
+  flex-shrink: 0;
 }
 .marquee:hover .marquee-track { animation-play-state: paused; }
 @keyframes marqueeScroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
 }
 .marquee-item {
   font-size: 0.95rem;
