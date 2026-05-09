@@ -175,12 +175,15 @@ function Index() {
       </section>
 
       {/* Platform */}
-      <section id="platform" className="border-t hairline bg-secondary/40">
-        <div className="container-prose py-24 md:py-32">
+      <section id="platform" className="relative overflow-hidden border-t hairline bg-secondary/40">
+        <div className="amb-dots" aria-hidden>
+          <span /><span /><span /><span /><span /><span />
+        </div>
+        <div className="container-prose relative py-24 md:py-32">
           <div className="max-w-2xl mb-14 reveal">
             <p className="eyebrow mb-4">The Platform</p>
             <h2 className="display text-4xl md:text-5xl">
-              Seven open source tools.<br />One coherent learning record.
+              <span className="heading-underline">Seven open source tools.</span><br />One coherent learning record.
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -211,12 +214,13 @@ function Index() {
       </section>
 
       {/* For Schools */}
-      <section id="schools" className="bg-[color:var(--navy)] text-[color:var(--navy-foreground)]">
-        <div className="container-prose py-24 md:py-32 grid md:grid-cols-12 gap-10">
-          <div className="md:col-span-5">
+      <section id="schools" className="relative overflow-hidden bg-[color:var(--navy)] text-[color:var(--navy-foreground)]">
+        <div className="aurora" aria-hidden />
+        <div className="container-prose relative py-24 md:py-32 grid md:grid-cols-12 gap-10">
+          <div className="md:col-span-5 reveal">
             <p className="eyebrow">For Schools</p>
             <h2 className="display text-4xl md:text-5xl mt-4">
-              Hosted, integrated, and yours to keep.
+              <span className="heading-underline">Hosted, integrated,</span> and yours to keep.
             </h2>
             <p className="mt-6 text-base text-[color:var(--navy-foreground)]/70 leading-relaxed">
               Pricing: <span className="text-[color:var(--accent-amber)]">Contact us for institutional pricing.</span>
@@ -228,7 +232,7 @@ function Index() {
               </svg>
             </a>
           </div>
-          <div className="md:col-span-7">
+          <div className="md:col-span-7 reveal">
             {[
               ["Hosted solution, fully managed", "We run the infrastructure. You focus on teaching."],
               ["Single sign-on across all tools", "One account per student — no shuffling between logins."],
@@ -250,12 +254,15 @@ function Index() {
       </section>
 
       {/* For Researchers */}
-      <section id="researchers" className="border-t hairline">
-        <div className="container-prose py-24 md:py-32 grid md:grid-cols-12 gap-10">
-          <div className="md:col-span-5">
+      <section id="researchers" className="relative overflow-hidden border-t hairline">
+        <div className="amb-dots" aria-hidden>
+          <span /><span /><span /><span /><span /><span />
+        </div>
+        <div className="container-prose relative py-24 md:py-32 grid md:grid-cols-12 gap-10">
+          <div className="md:col-span-5 reveal">
             <p className="eyebrow">For Researchers</p>
             <h2 className="display text-4xl md:text-5xl mt-4">
-              Anonymized learning data, openly accessible.
+              <span className="heading-underline">Anonymized learning data,</span> openly accessible.
             </h2>
             <p className="mt-6 text-muted-foreground leading-relaxed">
               OLT contributes anonymized learning datasets to the{" "}
@@ -269,21 +276,34 @@ function Index() {
               Data shared in accordance with FERPA and IRB guidelines.
             </p>
           </div>
-          <div className="md:col-span-7 space-y-6">
+          <div className="md:col-span-7 space-y-6 reveal">
             <div>
               <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">Data covers</h4>
               <ul className="space-y-2 text-base">
-                <li className="flex gap-3"><span className="text-[color:var(--accent-amber)]">—</span> Behavioral engagement across reading, video, and code</li>
-                <li className="flex gap-3"><span className="text-[color:var(--accent-amber)]">—</span> Assessment outcomes from quizzes and flashcard practice</li>
-                <li className="flex gap-3"><span className="text-[color:var(--accent-amber)]">—</span> Demographic context, anonymized at the cohort level</li>
-                <li className="flex gap-3"><span className="text-[color:var(--accent-amber)]">—</span> Cross-tool learning patterns under a unified identity</li>
+                {[
+                  "Behavioral engagement across reading, video, and code",
+                  "Assessment outcomes from quizzes and flashcard practice",
+                  "Demographic context, anonymized at the cohort level",
+                  "Cross-tool learning patterns under a unified identity",
+                ].map((t, i) => (
+                  <li key={t} className="flex gap-3">
+                    <span
+                      className="text-[color:var(--accent-amber)] dash-pulse"
+                      style={{ animationDelay: `${i * 0.3}s` }}
+                    >—</span> {t}
+                  </li>
+                ))}
               </ul>
             </div>
             <div className="border-t hairline pt-6">
               <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">Useful for</h4>
               <div className="flex flex-wrap gap-2">
-                {["Learning science", "AI model training", "Educational equity research"].map((t) => (
-                  <span key={t} className="text-sm border hairline rounded-full px-3 py-1.5">{t}</span>
+                {["Learning science", "AI model training", "Educational equity research"].map((t, i) => (
+                  <span
+                    key={t}
+                    className="text-sm border hairline rounded-full px-3 py-1.5 pill-float"
+                    style={{ animationDelay: `${i * 0.4}s` }}
+                  >{t}</span>
                 ))}
               </div>
             </div>
@@ -292,16 +312,19 @@ function Index() {
       </section>
 
       {/* Open Source */}
-      <section id="open-source" className="border-t hairline bg-secondary/40">
-        <div className="container-prose py-24 md:py-32">
+      <section id="open-source" className="relative overflow-hidden border-t hairline bg-secondary/40">
+        <div className="amb-dots" aria-hidden>
+          <span /><span /><span /><span /><span /><span />
+        </div>
+        <div className="container-prose relative py-24 md:py-32">
           <div className="grid md:grid-cols-12 gap-10">
-            <div className="md:col-span-5">
+            <div className="md:col-span-5 reveal">
               <p className="eyebrow">Open Source</p>
               <h2 className="display text-4xl md:text-5xl mt-4">
-                MIT-licensed.<br />Forkable. Yours.
+                <span className="heading-underline">MIT-licensed.</span><br />Forkable. Yours.
               </h2>
             </div>
-            <div className="md:col-span-7">
+            <div className="md:col-span-7 reveal">
               <p className="text-lg text-muted-foreground leading-relaxed">
                 OLT Academy is MIT-licensed open source — free to use, modify, and self-host
                 without restriction. The full instrumentation layer, LRS pipeline, and SSO
@@ -325,10 +348,14 @@ function Index() {
       </section>
 
       {/* Demo CTA */}
-      <section id="demo" className="border-t hairline">
-        <div className="container-prose py-24 md:py-28 text-center">
+      <section id="demo" className="relative overflow-hidden border-t hairline">
+        <div className="ambient-blobs" aria-hidden>
+          <span className="blob blob-a" />
+          <span className="blob blob-c" />
+        </div>
+        <div className="container-prose relative py-24 md:py-28 text-center reveal">
           <h2 className="display text-4xl md:text-6xl max-w-3xl mx-auto">
-            See what your students' learning actually looks like.
+            <span className="shimmer-text">See what your students' learning actually looks like.</span>
           </h2>
           <div className="mt-10 flex justify-center gap-3 flex-wrap">
             <a href="mailto:team@olt.academy" className="btn btn-primary">Request a Demo</a>
