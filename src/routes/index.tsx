@@ -161,8 +161,8 @@ function Index() {
               <img
                 src={problemSilos}
                 alt="Fragmented learning data trapped in disconnected silos"
-                width={1280}
-                height={960}
+                width={1024}
+                height={1024}
                 loading="lazy"
                 className="w-full h-auto block"
               />
