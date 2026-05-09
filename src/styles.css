@@ -309,17 +309,37 @@
   50%      { transform: translateX(60px); opacity: 1; }
 }
 
-/* Animated section heading underline on reveal */
-.heading-underline { position: relative; display: inline-block; }
-.heading-underline::after {
-  content: "";
-  position: absolute; left: 0; bottom: -10px;
-  height: 3px; width: 0;
-  background: var(--accent-amber);
-  border-radius: 2px;
-  transition: width 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+/* Shimmer gradient sweep for accent headings */
+.heading-underline {
+  display: inline-block;
+  background: linear-gradient(
+    100deg,
+    var(--navy) 0%,
+    var(--navy) 38%,
+    var(--accent-amber) 50%,
+    var(--navy) 62%,
+    var(--navy) 100%
+  );
+  background-size: 220% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+  animation: headingShimmer 7s linear infinite;
 }
-.reveal.is-visible .heading-underline::after { width: 64px; }
+@keyframes headingShimmer {
+  from { background-position: 120% 0; }
+  to   { background-position: -120% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .heading-underline {
+    animation: none !important;
+    background: none;
+    -webkit-background-clip: initial;
+            background-clip: initial;
+    color: var(--navy);
+  }
+}
 
 /* Tool cards: stagger pop + icon idle wiggle on hover */
 .tool-card { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s, border-color 0.2s; }
