@@ -43,7 +43,7 @@
   --cream: oklch(0.985 0.008 85);            /* warm white */
   --navy: oklch(0.21 0.045 255);             /* deep navy */
   --navy-foreground: oklch(0.97 0.01 85);
-  --accent-amber: oklch(0.74 0.14 60);       /* single accent: warm amber */
+  --accent-amber: oklch(0.62 0.15 150);      /* accent: green */
   --hairline: oklch(0.86 0.01 80);
 
   --background: var(--cream);
@@ -89,10 +89,10 @@
 
 @layer components {
   .display {
-    font-family: var(--font-serif);
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    line-height: 1.02;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
   }
   .eyebrow {
     text-transform: uppercase;
@@ -121,9 +121,9 @@
   }
   .btn-ghost:hover { background: var(--navy); color: var(--cream); }
   .btn-on-navy-primary {
-    background: var(--accent-amber); color: oklch(0.18 0.03 60);
+    background: var(--accent-amber); color: oklch(0.18 0.04 150);
   }
-  .btn-on-navy-primary:hover { background: oklch(0.8 0.14 60); }
+  .btn-on-navy-primary:hover { background: oklch(0.68 0.15 150); }
   .btn-on-navy-ghost {
     background: transparent; color: var(--cream);
     border-color: oklch(1 0 0 / 0.3);

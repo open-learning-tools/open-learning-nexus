@@ -115,7 +115,7 @@ function Index() {
                   </text>
                 </g>
               ))}
-              <circle cx="400" cy="120" r="10" fill="oklch(0.74 0.14 60)" />
+              <circle cx="400" cy="120" r="10" fill="oklch(0.62 0.15 150)" />
               <text x="400" y="138" textAnchor="middle" fontSize="10" fontWeight="600" fill="oklch(0.21 0.045 255)">
                 Single learning record · xAPI
               </text>
@@ -202,7 +202,7 @@ function Index() {
               ["No vendor lock-in", "Built entirely on open source. Self-host any time, no migration penalty."],
             ].map(([title, body]) => (
               <div key={title} className="check-row">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="oklch(0.74 0.14 60)" strokeWidth="2" className="mt-0.5 shrink-0">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="oklch(0.62 0.15 150)" strokeWidth="2" className="mt-0.5 shrink-0">
                   <path d="M5 12l5 5L20 7" />
                 </svg>
                 <div>
