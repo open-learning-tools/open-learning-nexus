@@ -91,12 +91,22 @@ function Index() {
           <span className="blob blob-b" />
           <span className="blob blob-c" />
         </div>
+        </div>
+        {/* floating ambient tool chips */}
+        <div className="absolute inset-0 pointer-events-none hidden md:block" aria-hidden>
+          <span className="float-chip" style={{ left: "6%",  top: "18%", ["--dx" as string]: "14px", ["--dy" as string]: "-22px", ["--rot" as string]: "-3deg", animationDelay: "0s" }}>📖 Readings</span>
+          <span className="float-chip" style={{ right: "8%", top: "12%", ["--dx" as string]: "-18px", ["--dy" as string]: "16px", ["--rot" as string]: "4deg", animationDelay: "1.2s" }}>▶ Video</span>
+          <span className="float-chip" style={{ left: "10%", bottom: "22%", ["--dx" as string]: "20px", ["--dy" as string]: "-12px", ["--rot" as string]: "2deg", animationDelay: "2.4s" }}>⌨ Code</span>
+          <span className="float-chip" style={{ right: "6%", bottom: "30%", ["--dx" as string]: "-14px", ["--dy" as string]: "-20px", ["--rot" as string]: "-5deg", animationDelay: "3.6s" }}>🗂 Flashcards</span>
+          <span className="float-chip" style={{ right: "20%", top: "44%", ["--dx" as string]: "12px", ["--dy" as string]: "20px", ["--rot" as string]: "1deg", animationDelay: "4.8s" }}>💬 AI Tutor</span>
+        </div>
         <div className="container-prose relative pt-24 pb-28 md:pt-36 md:pb-40">
           <div className="max-w-4xl hero-in">
             <p className="eyebrow mb-6">Open source learning analytics · olt.academy</p>
             <h1 className="display text-5xl md:text-7xl">
               Every learning moment,<br />
-              <span className="italic text-[color:var(--accent-amber)]">measured</span> and understood.
+              <span className="italic text-[color:var(--accent-amber)]">measured</span>
+              <span className="caret" aria-hidden /> and understood.
             </h1>
             <p className="mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
               A unified, open source suite of seven learning tools — readings, video, documents,
