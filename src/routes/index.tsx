@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 import oltLogo from "@/assets/olt-logo.png";
 import problemSilos from "@/assets/problem-silos.jpg";
+import learningCrown from "@/assets/learning-crown.mp3";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -64,7 +65,42 @@ function Index() {
       { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
     );
     els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
+
+    // Play ambient track on first scroll-down from the top
+    const audio = new Audio(learningCrown);
+    audio.loop = true;
+    audio.volume = 0.5;
+    let started = false;
+    const tryPlay = () => {
+      if (started) return;
+      if (window.scrollY > 0) {
+        started = true;
+        audio.play().catch(() => {
+          // Autoplay blocked — start on next user gesture
+          const onGesture = () => {
+            audio.play().catch(() => {});
+            window.removeEventListener("pointerdown", onGesture);
+            window.removeEventListener("keydown", onGesture);
+          };
+          window.addEventListener("pointerdown", onGesture, { once: true });
+          window.addEventListener("keydown", onGesture, { once: true });
+        });
+        window.removeEventListener("scroll", tryPlay);
+        window.removeEventListener("wheel", tryPlay);
+        window.removeEventListener("touchmove", tryPlay);
+      }
+    };
+    window.addEventListener("scroll", tryPlay, { passive: true });
+    window.addEventListener("wheel", tryPlay, { passive: true });
+    window.addEventListener("touchmove", tryPlay, { passive: true });
+
+    return () => {
+      io.disconnect();
+      window.removeEventListener("scroll", tryPlay);
+      window.removeEventListener("wheel", tryPlay);
+      window.removeEventListener("touchmove", tryPlay);
+      audio.pause();
+    };
   }, []);
 
   return (
