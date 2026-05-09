@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Pause, Play } from "lucide-react";
 import oltLogo from "@/assets/olt-logo.png";
 import problemSilos from "@/assets/problem-silos.jpg";
 import learningCrown from "@/assets/learning-crown.mp3";
@@ -51,6 +52,10 @@ function Logo({ className = "", size = "md" }: { className?: string; size?: "md"
 }
 
 function Index() {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [musicStarted, setMusicStarted] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+
   useEffect(() => {
     const els = document.querySelectorAll<HTMLElement>(".reveal");
     const io = new IntersectionObserver(
@@ -66,17 +71,22 @@ function Index() {
     );
     els.forEach((el) => io.observe(el));
 
-    // Play ambient track on first scroll-down from the top
     const audio = new Audio(learningCrown);
     audio.loop = true;
     audio.volume = 0.5;
+    audioRef.current = audio;
+    audio.addEventListener("play", () => {
+      setMusicStarted(true);
+      setIsPlaying(true);
+    });
+    audio.addEventListener("pause", () => setIsPlaying(false));
+
     let started = false;
     const tryPlay = () => {
       if (started) return;
       if (window.scrollY > 0) {
         started = true;
         audio.play().catch(() => {
-          // Autoplay blocked — start on next user gesture
           const onGesture = () => {
             audio.play().catch(() => {});
             window.removeEventListener("pointerdown", onGesture);
@@ -103,6 +113,13 @@ function Index() {
     };
   }, []);
 
+  const toggleMusic = () => {
+    const a = audioRef.current;
+    if (!a) return;
+    if (a.paused) a.play().catch(() => {});
+    else a.pause();
+  };
+
   return (
     <div className="min-h-screen">
       {/* Nav */}
@@ -115,7 +132,18 @@ function Index() {
             <a href="#researchers" className="hover:text-foreground transition-colors">Researchers</a>
             <a href="#open-source" className="hover:text-foreground transition-colors">Open Source</a>
           </nav>
-          <a href="#demo" className="btn btn-primary text-xs px-4 py-2">Request a Demo</a>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={toggleMusic}
+              aria-label={isPlaying ? "Pause music" : "Play music"}
+              className={`music-toggle inline-flex items-center justify-center h-9 w-9 rounded-full border hairline bg-background/70 text-foreground hover:bg-secondary transition-all ${musicStarted ? "music-toggle-visible" : ""}`}
+            >
+              {isPlaying ? <Pause size={14} /> : <Play size={14} className="ml-0.5" />}
+              {isPlaying && <span className="music-pulse" aria-hidden />}
+            </button>
+            <a href="#demo" className="btn btn-primary text-xs px-4 py-2">Request a Demo</a>
+          </div>
         </div>
       </header>
 
