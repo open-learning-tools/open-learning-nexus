@@ -523,17 +523,17 @@ footer .sr-only + img, footer img[alt*="logo"] {
 /* Blinking caret next to italic word */
 .caret {
   display: inline-block;
-  width: 3px;
-  height: 0.9em;
-  margin-left: 4px;
+  width: 4px;
+  height: 0.95em;
+  margin-left: 6px;
   background: var(--accent-amber);
-  vertical-align: -0.05em;
-  animation: caretBlink 1.05s steps(1) infinite;
+  vertical-align: -0.08em;
   border-radius: 1px;
+  animation: caretBlink 1s steps(2, jump-none) infinite;
 }
 @keyframes caretBlink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 /* Floating tool chips behind hero */
