@@ -747,7 +747,6 @@ header nav a:hover::after {
   from { background-position: 0 0; }
   to   { background-position: 560px 560px; }
 }
-.hero-grid { animation: gridDrift 18s linear infinite; }
 @media (prefers-reduced-motion: reduce) {
   .hero-aurora, .hero-mesh { animation: none !important; }
 }
