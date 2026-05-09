@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Pause, Play } from "lucide-react";
 import oltLogo from "@/assets/olt-logo.png";
 import problemSilos from "@/assets/problem-silos.jpg";
 import learningCrown from "@/assets/learning-crown.mp3";
