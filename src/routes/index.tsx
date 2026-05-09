@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import oltLogo from "@/assets/olt-logo.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -36,14 +37,11 @@ const tools = [
   { name: "LibreChat", desc: "Learn with an AI tutor", icon: "M21 11a8 8 0 01-12.6 6.5L3 19l1.5-5.4A8 8 0 1121 11z" },
 ];
 
-function Logo({ className = "" }: { className?: string }) {
+function Logo({ className = "", showText = true }: { className?: string; showText?: boolean }) {
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
-        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.6" />
-        <circle cx="12" cy="12" r="4" fill="currentColor" />
-      </svg>
-      <span className="font-semibold tracking-tight">Open Learning Tools</span>
+    <div className={`flex items-center gap-2.5 ${className}`}>
+      <img src={oltLogo} alt="Open Learning Tools logo" className="h-9 w-auto" />
+      {showText && <span className="font-semibold tracking-tight sr-only">Open Learning Tools</span>}
     </div>
   );
 }
