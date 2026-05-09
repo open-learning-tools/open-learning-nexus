@@ -38,11 +38,12 @@ const tools = [
   { name: "LibreChat", desc: "Learn with an AI tutor", icon: "M21 11a8 8 0 01-12.6 6.5L3 19l1.5-5.4A8 8 0 1121 11z" },
 ];
 
-function Logo({ className = "", showText = true }: { className?: string; showText?: boolean }) {
+function Logo({ className = "", size = "md" }: { className?: string; size?: "md" | "lg" }) {
+  const h = size === "lg" ? "h-20 md:h-24" : "h-14";
   return (
-    <div className={`flex items-center gap-2.5 ${className}`}>
-      <img src={oltLogo} alt="Open Learning Tools logo" className="h-9 w-auto" />
-      {showText && <span className="font-semibold tracking-tight sr-only">Open Learning Tools</span>}
+    <div className={`flex items-center ${className}`}>
+      <img src={oltLogo} alt="Open Learning Tools logo" className={`${h} w-auto`} />
+      <span className="sr-only">Open Learning Tools</span>
     </div>
   );
 }
