@@ -91,7 +91,6 @@ function Index() {
           <span className="blob blob-b" />
           <span className="blob blob-c" />
         </div>
-        </div>
         {/* floating ambient tool chips */}
         <div className="absolute inset-0 pointer-events-none hidden md:block" aria-hidden>
           <span className="float-chip" style={{ left: "6%",  top: "18%", ["--dx" as string]: "14px", ["--dy" as string]: "-22px", ["--rot" as string]: "-3deg", animationDelay: "0s" }}>📖 Readings</span>
