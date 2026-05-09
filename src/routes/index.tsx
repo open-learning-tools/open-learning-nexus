@@ -85,6 +85,11 @@ function Index() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 hero-grid pointer-events-none" aria-hidden />
+        <div className="ambient-blobs pointer-events-none" aria-hidden>
+          <span className="blob blob-a" />
+          <span className="blob blob-b" />
+          <span className="blob blob-c" />
+        </div>
         <div className="container-prose relative pt-24 pb-28 md:pt-36 md:pb-40">
           <div className="max-w-4xl hero-in">
             <p className="eyebrow mb-6">Open source learning analytics · olt.academy</p>
@@ -257,7 +262,7 @@ function Index() {
               <span className="text-foreground font-medium">Massachusetts Data Commons</span>,
               available to credentialed researchers under standard data-use agreements.
             </p>
-            <a href="mailto:research@olt.academy" className="btn btn-primary mt-8">
+            <a href="mailto:team@olt.academy" className="btn btn-primary mt-8">
               Request Data Access
             </a>
             <p className="text-xs text-muted-foreground mt-4">
@@ -326,8 +331,8 @@ function Index() {
             See what your students' learning actually looks like.
           </h2>
           <div className="mt-10 flex justify-center gap-3 flex-wrap">
-            <a href="mailto:hello@olt.academy" className="btn btn-primary">Request a Demo</a>
-            <a href="mailto:research@olt.academy" className="btn btn-ghost">Request Data Access</a>
+            <a href="mailto:team@olt.academy" className="btn btn-primary">Request a Demo</a>
+            <a href="mailto:team@olt.academy" className="btn btn-ghost">Request Data Access</a>
           </div>
         </div>
       </section>
@@ -356,12 +361,12 @@ function Index() {
               </div>
               <div>
                 <p className="font-semibold mb-3">Research</p>
-                <a href="mailto:research@olt.academy" className="block text-muted-foreground hover:text-foreground py-1">Data Access</a>
+                <a href="mailto:team@olt.academy" className="block text-muted-foreground hover:text-foreground py-1">Data Access</a>
                 <a href="#researchers" className="block text-muted-foreground hover:text-foreground py-1">Datasets</a>
               </div>
               <div>
                 <p className="font-semibold mb-3">Contact</p>
-                <a href="mailto:hello@olt.academy" className="block text-muted-foreground hover:text-foreground py-1">hello@olt.academy</a>
+                <a href="mailto:team@olt.academy" className="block text-muted-foreground hover:text-foreground py-1">team@olt.academy</a>
               </div>
             </div>
           </div>
