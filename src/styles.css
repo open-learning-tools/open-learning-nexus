@@ -724,21 +724,30 @@ header nav a:hover::after {
 }
 .hero-mesh {
   position: absolute;
-  inset: 0;
+  inset: -10%;
   background:
-    conic-gradient(from 120deg at 30% 40%,
-      transparent 0deg,
-      oklch(0.70 0.10 200 / 0.18) 80deg,
-      transparent 160deg,
-      oklch(0.55 0.13 250 / 0.18) 260deg,
-      transparent 340deg);
-  filter: blur(70px);
+    repeating-linear-gradient(
+      115deg,
+      transparent 0px,
+      transparent 90px,
+      oklch(0.70 0.10 200 / 0.10) 90px,
+      oklch(0.70 0.10 200 / 0.10) 130px,
+      transparent 130px,
+      transparent 220px,
+      oklch(0.55 0.13 250 / 0.09) 220px,
+      oklch(0.55 0.13 250 / 0.09) 280px
+    );
+  background-size: 560px 560px;
+  filter: blur(2px);
   mix-blend-mode: multiply;
-  animation: heroMeshSpin 32s linear infinite;
+  animation: heroMeshScroll 22s linear infinite;
+  will-change: background-position;
 }
-@keyframes heroMeshSpin {
-  to { transform: rotate(360deg); }
+@keyframes heroMeshScroll {
+  from { background-position: 0 0; }
+  to   { background-position: 560px 560px; }
 }
+.hero-grid { animation: gridDrift 18s linear infinite; }
 @media (prefers-reduced-motion: reduce) {
   .hero-aurora, .hero-mesh { animation: none !important; }
 }
