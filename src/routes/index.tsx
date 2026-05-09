@@ -114,30 +114,33 @@ function Index() {
           </div>
 
           {/* xAPI stream visualization */}
-          <div className="relative mt-20 mx-auto max-w-3xl hidden md:block" aria-hidden>
-            <svg viewBox="0 0 800 140" className="w-full">
+          <div className="relative mt-20 mx-auto max-w-3xl hidden md:block reveal xapi-reveal" aria-hidden>
+            <svg viewBox="0 0 800 150" className="w-full overflow-visible">
               {[...Array(7)].map((_, i) => (
                 <line
                   key={i}
-                  className="stream-line"
-                  style={{ animationDelay: `${i * 0.18}s` }}
+                  className="stream-draw"
+                  style={{ animationDelay: `${0.2 + i * 0.12}s` }}
                   x1={60 + i * 110} y1="20"
                   x2="400" y2="120"
                   stroke="oklch(0.32 0.09 255)" strokeWidth="1"
                 />
               ))}
               {[...Array(7)].map((_, i) => (
-                <g key={`n-${i}`}>
+                <g key={`n-${i}`} className="node-pop" style={{ animationDelay: `${i * 0.12}s` }}>
                   <circle cx={60 + i * 110} cy="20" r="6" fill="oklch(0.32 0.09 255)" />
                   <text x={60 + i * 110} y="8" textAnchor="middle" fontSize="9" fill="oklch(0.45 0.02 260)">
                     {tools[i].name}
                   </text>
                 </g>
               ))}
-              <circle cx="400" cy="120" r="10" fill="oklch(0.70 0.10 200)" />
-              <text x="400" y="138" textAnchor="middle" fontSize="10" fontWeight="600" fill="oklch(0.32 0.09 255)">
-                Single learning record · xAPI
-              </text>
+              <g className="record-pop">
+                <circle cx="400" cy="120" r="10" fill="oklch(0.70 0.10 200)" />
+                <circle cx="400" cy="120" r="10" fill="none" stroke="oklch(0.70 0.10 200)" strokeWidth="2" className="record-ring" />
+                <text x="400" y="142" textAnchor="middle" fontSize="10" fontWeight="600" fill="oklch(0.32 0.09 255)">
+                  Single learning record · xAPI
+                </text>
+              </g>
             </svg>
           </div>
         </div>

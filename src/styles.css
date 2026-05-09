@@ -187,12 +187,51 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* xAPI stream pulse */
-@keyframes streamPulse {
-  0%, 100% { stroke-opacity: 0.12; }
-  50%      { stroke-opacity: 0.45; }
+/* xAPI stream — animate only after the viz scrolls into view */
+.xapi-reveal .stream-draw,
+.xapi-reveal .node-pop,
+.xapi-reveal .record-pop { opacity: 0; }
+
+.xapi-reveal.is-visible .stream-draw {
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  opacity: 0.35;
+  animation: streamDraw 1.1s ease-out forwards, streamPulse 3.2s ease-in-out 1.4s infinite;
 }
-.stream-line { animation: streamPulse 3.2s ease-in-out infinite; }
+.xapi-reveal.is-visible .node-pop {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: nodePop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+.xapi-reveal.is-visible .record-pop {
+  transform-origin: 400px 120px;
+  animation: recordPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 1.4s forwards;
+}
+.xapi-reveal.is-visible .record-ring {
+  transform-origin: 400px 120px;
+  animation: recordRing 2.2s ease-out 1.8s infinite;
+}
+
+@keyframes streamDraw {
+  from { stroke-dashoffset: 220; opacity: 0; }
+  to   { stroke-dashoffset: 0;   opacity: 0.35; }
+}
+@keyframes streamPulse {
+  0%, 100% { stroke-opacity: 0.18; }
+  50%      { stroke-opacity: 0.5; }
+}
+@keyframes nodePop {
+  from { opacity: 0; transform: scale(0.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes recordPop {
+  from { opacity: 0; transform: scale(0.2); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes recordRing {
+  0%   { opacity: 0.7; transform: scale(1); }
+  100% { opacity: 0;   transform: scale(2.6); }
+}
 
 /* Subtle grid backdrop for hero */
 .hero-grid {
