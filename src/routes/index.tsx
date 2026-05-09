@@ -178,8 +178,6 @@ function Index() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="hero-bg" aria-hidden>
-          <div className="hero-aurora" />
-          <div className="hero-mesh" />
           <div className="absolute inset-0 hero-grid pointer-events-none" />
           <div className="ambient-blobs pointer-events-none">
             <span className="blob blob-a" />
