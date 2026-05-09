@@ -175,12 +175,15 @@ function Index() {
       </section>
 
       {/* Platform */}
-      <section id="platform" className="border-t hairline bg-secondary/40">
-        <div className="container-prose py-24 md:py-32">
+      <section id="platform" className="relative overflow-hidden border-t hairline bg-secondary/40">
+        <div className="amb-dots" aria-hidden>
+          <span /><span /><span /><span /><span /><span />
+        </div>
+        <div className="container-prose relative py-24 md:py-32">
           <div className="max-w-2xl mb-14 reveal">
             <p className="eyebrow mb-4">The Platform</p>
             <h2 className="display text-4xl md:text-5xl">
-              Seven open source tools.<br />One coherent learning record.
+              <span className="heading-underline">Seven open source tools.</span><br />One coherent learning record.
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
