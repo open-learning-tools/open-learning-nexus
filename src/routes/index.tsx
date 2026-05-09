@@ -85,7 +85,7 @@ function Index() {
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 hero-grid pointer-events-none" aria-hidden />
         <div className="container-prose relative pt-24 pb-28 md:pt-36 md:pb-40">
-          <div className="max-w-4xl">
+          <div className="max-w-4xl hero-in">
             <p className="eyebrow mb-6">Open source learning analytics · olt.academy</p>
             <h1 className="display text-5xl md:text-7xl">
               Every learning moment,<br />
@@ -118,9 +118,11 @@ function Index() {
               {[...Array(7)].map((_, i) => (
                 <line
                   key={i}
+                  className="stream-line"
+                  style={{ animationDelay: `${i * 0.18}s` }}
                   x1={60 + i * 110} y1="20"
                   x2="400" y2="120"
-                  stroke="oklch(0.32 0.09 255)" strokeOpacity="0.18" strokeWidth="1"
+                  stroke="oklch(0.32 0.09 255)" strokeWidth="1"
                 />
               ))}
               {[...Array(7)].map((_, i) => (
