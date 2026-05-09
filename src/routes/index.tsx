@@ -192,6 +192,34 @@ function Index() {
             </p>
           </div>
         </div>
+
+        {/* Marquee: siloed apps vs OLT */}
+        <div className="marquee border-y hairline bg-background/50 py-4">
+          <div className="marquee-track">
+            {[...Array(2)].map((_, dup) => (
+              <div key={dup} className="inline-flex items-center gap-10">
+                {[
+                  { name: "Khan Academy", olt: false },
+                  { name: "Google Docs", olt: false },
+                  { name: "Quizlet", olt: false },
+                  { name: "Canvas", olt: false },
+                  { name: "Kahoot", olt: false },
+                  { name: "OLT · unified record", olt: true },
+                  { name: "Notion", olt: false },
+                  { name: "Anki", olt: false },
+                  { name: "Coursera", olt: false },
+                  { name: "Schoology", olt: false },
+                  { name: "Blackboard", olt: false },
+                  { name: "OLT · unified record", olt: true },
+                ].map((it, i) => (
+                  <span key={`${dup}-${i}`} className={`marquee-item ${it.olt ? "olt" : ""}`}>
+                    <span className="dot" /> {it.name}
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Platform */}
