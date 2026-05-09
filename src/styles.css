@@ -288,6 +288,207 @@
   100% { opacity: 0;   transform: scale(2.6); }
 }
 
+/* ============ Section-level ambient animations ============ */
+
+/* Eyebrow shimmer underline */
+.eyebrow {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 6px;
+}
+.eyebrow::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  height: 1px; width: 36px;
+  background: linear-gradient(90deg, var(--accent-amber), transparent);
+  animation: eyebrowSweep 3.4s ease-in-out infinite;
+}
+@keyframes eyebrowSweep {
+  0%, 100% { transform: translateX(0); opacity: 0.5; }
+  50%      { transform: translateX(60px); opacity: 1; }
+}
+
+/* Animated section heading underline on reveal */
+.heading-underline { position: relative; display: inline-block; }
+.heading-underline::after {
+  content: "";
+  position: absolute; left: 0; bottom: -10px;
+  height: 3px; width: 0;
+  background: var(--accent-amber);
+  border-radius: 2px;
+  transition: width 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+}
+.reveal.is-visible .heading-underline::after { width: 64px; }
+
+/* Tool cards: stagger pop + icon idle wiggle on hover */
+.tool-card { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s, border-color 0.2s; }
+.tool-card:hover .tool-icon {
+  animation: iconWiggle 0.7s ease-in-out;
+  background: oklch(0.92 0.06 200);
+}
+@keyframes iconWiggle {
+  0%, 100% { transform: rotate(0) scale(1); }
+  25% { transform: rotate(-8deg) scale(1.08); }
+  60% { transform: rotate(6deg) scale(1.08); }
+}
+.tool-icon { transition: background 0.3s ease; }
+
+/* Floating ambient dots in platform / open-source sections */
+.amb-dots {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0;
+}
+.amb-dots span {
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 9999px;
+  background: var(--accent-amber);
+  opacity: 0.35;
+  animation: floatY 9s ease-in-out infinite;
+}
+.amb-dots span:nth-child(1) { left: 8%;  top: 30%; animation-delay: 0s;   background: oklch(0.55 0.13 250 / 0.5); }
+.amb-dots span:nth-child(2) { left: 22%; top: 70%; animation-delay: 1.2s; width: 4px; height: 4px; }
+.amb-dots span:nth-child(3) { left: 46%; top: 18%; animation-delay: 2.4s; width: 8px; height: 8px; opacity: 0.25; }
+.amb-dots span:nth-child(4) { left: 68%; top: 60%; animation-delay: 0.6s; }
+.amb-dots span:nth-child(5) { left: 84%; top: 28%; animation-delay: 1.8s; width: 5px; height: 5px; background: oklch(0.55 0.13 250 / 0.5); }
+.amb-dots span:nth-child(6) { left: 92%; top: 78%; animation-delay: 3.1s; }
+@keyframes floatY {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0.35; }
+  50%      { transform: translateY(-30px) translateX(10px); opacity: 0.7; }
+}
+
+/* Navy section: animated aurora + soft scanline */
+.aurora {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+}
+.aurora::before, .aurora::after {
+  content: "";
+  position: absolute;
+  width: 80%; height: 200%;
+  left: 10%; top: -50%;
+  background: conic-gradient(from 0deg,
+    transparent 0deg,
+    oklch(0.70 0.10 200 / 0.18) 70deg,
+    transparent 140deg,
+    oklch(0.55 0.13 250 / 0.22) 230deg,
+    transparent 300deg);
+  filter: blur(60px);
+  animation: auroraSpin 28s linear infinite;
+  transform-origin: center;
+}
+.aurora::after {
+  animation-duration: 44s;
+  animation-direction: reverse;
+  opacity: 0.6;
+}
+@keyframes auroraSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Check-row stagger reveal + checkmark pop */
+.check-row {
+  opacity: 0;
+  transform: translateX(-12px);
+  animation: checkSlide 0.7s ease-out forwards;
+}
+.check-row:nth-child(1) { animation-delay: 0.1s; }
+.check-row:nth-child(2) { animation-delay: 0.25s; }
+.check-row:nth-child(3) { animation-delay: 0.4s; }
+.check-row:nth-child(4) { animation-delay: 0.55s; }
+.check-row svg path {
+  stroke-dasharray: 30; stroke-dashoffset: 30;
+  animation: drawCheck 0.6s ease-out forwards;
+}
+.check-row:nth-child(1) svg path { animation-delay: 0.4s; }
+.check-row:nth-child(2) svg path { animation-delay: 0.55s; }
+.check-row:nth-child(3) svg path { animation-delay: 0.7s; }
+.check-row:nth-child(4) svg path { animation-delay: 0.85s; }
+@keyframes checkSlide {
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes drawCheck {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Researchers bullet dashes pulse */
+.dash-pulse {
+  display: inline-block;
+  animation: dashPulse 2.4s ease-in-out infinite;
+}
+@keyframes dashPulse {
+  0%, 100% { transform: translateX(0); opacity: 0.7; }
+  50%      { transform: translateX(4px); opacity: 1; }
+}
+
+/* Pill tags float */
+.pill-float {
+  animation: pillFloat 4s ease-in-out infinite;
+  display: inline-block;
+}
+@keyframes pillFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+
+/* Demo CTA: shimmering gradient text */
+.shimmer-text {
+  background: linear-gradient(
+    100deg,
+    var(--navy) 0%,
+    var(--navy) 40%,
+    var(--accent-amber) 50%,
+    var(--navy) 60%,
+    var(--navy) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmerSweep 6s linear infinite;
+}
+@keyframes shimmerSweep {
+  from { background-position: 100% 0; }
+  to   { background-position: -100% 0; }
+}
+
+/* Button shine */
+.btn-primary { position: relative; overflow: hidden; }
+.btn-primary::after {
+  content: "";
+  position: absolute; top: 0; left: -120%;
+  width: 60%; height: 100%;
+  background: linear-gradient(100deg, transparent, oklch(1 0 0 / 0.25), transparent);
+  transform: skewX(-20deg);
+  animation: btnShine 4.5s ease-in-out infinite;
+}
+@keyframes btnShine {
+  0%   { left: -120%; }
+  60%  { left: 140%; }
+  100% { left: 140%; }
+}
+
+/* Footer logo gentle bob */
+footer .sr-only + img, footer img[alt*="logo"] {
+  animation: bob 6s ease-in-out infinite;
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eyebrow::after, .tool-card, .amb-dots span,
+  .aurora::before, .aurora::after,
+  .check-row, .check-row svg path, .dash-pulse,
+  .pill-float, .shimmer-text, .btn-primary::after,
+  footer img[alt*="logo"] {
+    animation: none !important;
+  }
+  .check-row { opacity: 1; transform: none; }
+  .check-row svg path { stroke-dashoffset: 0; }
+  .shimmer-text { color: var(--navy); background: none; -webkit-background-clip: initial; background-clip: initial; }
+}
+
 /* Subtle grid backdrop for hero */
 .hero-grid {
   background-image:
