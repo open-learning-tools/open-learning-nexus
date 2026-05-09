@@ -130,13 +130,16 @@ function Index() {
           </div>
           <div className="md:col-span-8">
             <p className="display text-3xl md:text-4xl leading-tight">
-              Learning happens across a dozen tools. The data lives in none of them.
+              Today's learning runs on closed platforms. The data they generate is locked away from the people who could learn from it.
             </p>
             <p className="mt-6 text-lg text-muted-foreground leading-relaxed max-w-2xl">
-              Annotations, video watch-time, quiz attempts, code submissions, tutor conversations —
-              each lives behind its own login, in its own proprietary format, or simply isn't
-              captured at all. Schools end up with grades and attendance, and almost no signal about
-              how students actually learn.
+              Students learn across Khan Academy, Google Docs, Quizlet, Canvas, and a dozen other apps —
+              each siloing its own behavioral data behind a proprietary API, or not capturing it at all.
+              Educational AI researchers are left with thin, fragmented signals.
+            </p>
+            <p className="mt-4 text-lg text-muted-foreground leading-relaxed max-w-2xl">
+              OLT is a hosted suite of open source learning tools, instrumented end-to-end and
+              purpose-built to give researchers the rich, unified learning data that educational AI needs.
             </p>
           </div>
         </div>
