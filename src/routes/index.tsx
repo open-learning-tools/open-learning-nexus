@@ -214,12 +214,13 @@ function Index() {
       </section>
 
       {/* For Schools */}
-      <section id="schools" className="bg-[color:var(--navy)] text-[color:var(--navy-foreground)]">
-        <div className="container-prose py-24 md:py-32 grid md:grid-cols-12 gap-10">
-          <div className="md:col-span-5">
+      <section id="schools" className="relative overflow-hidden bg-[color:var(--navy)] text-[color:var(--navy-foreground)]">
+        <div className="aurora" aria-hidden />
+        <div className="container-prose relative py-24 md:py-32 grid md:grid-cols-12 gap-10">
+          <div className="md:col-span-5 reveal">
             <p className="eyebrow">For Schools</p>
             <h2 className="display text-4xl md:text-5xl mt-4">
-              Hosted, integrated, and yours to keep.
+              <span className="heading-underline">Hosted, integrated,</span> and yours to keep.
             </h2>
             <p className="mt-6 text-base text-[color:var(--navy-foreground)]/70 leading-relaxed">
               Pricing: <span className="text-[color:var(--accent-amber)]">Contact us for institutional pricing.</span>
@@ -231,7 +232,7 @@ function Index() {
               </svg>
             </a>
           </div>
-          <div className="md:col-span-7">
+          <div className="md:col-span-7 reveal">
             {[
               ["Hosted solution, fully managed", "We run the infrastructure. You focus on teaching."],
               ["Single sign-on across all tools", "One account per student — no shuffling between logins."],
