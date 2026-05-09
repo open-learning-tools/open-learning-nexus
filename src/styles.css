@@ -40,10 +40,10 @@
   --radius: 0.5rem;
 
   /* Brand palette */
-  --cream: oklch(0.985 0.008 85);            /* warm white */
-  --navy: oklch(0.21 0.045 255);             /* deep navy */
-  --navy-foreground: oklch(0.97 0.01 85);
-  --accent-amber: oklch(0.62 0.15 150);      /* accent: green */
+  --cream: oklch(0.985 0.006 230);           /* cool white */
+  --navy: oklch(0.32 0.09 255);              /* deep brand blue */
+  --navy-foreground: oklch(0.98 0.01 230);
+  --accent-amber: oklch(0.70 0.10 200);      /* turquoise accent */
   --hairline: oklch(0.86 0.01 80);
 
   --background: var(--cream);

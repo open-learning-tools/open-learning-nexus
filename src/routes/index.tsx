@@ -104,19 +104,19 @@ function Index() {
                   key={i}
                   x1={60 + i * 110} y1="20"
                   x2="400" y2="120"
-                  stroke="oklch(0.21 0.045 255)" strokeOpacity="0.18" strokeWidth="1"
+                  stroke="oklch(0.32 0.09 255)" strokeOpacity="0.18" strokeWidth="1"
                 />
               ))}
               {[...Array(7)].map((_, i) => (
                 <g key={`n-${i}`}>
-                  <circle cx={60 + i * 110} cy="20" r="6" fill="oklch(0.21 0.045 255)" />
+                  <circle cx={60 + i * 110} cy="20" r="6" fill="oklch(0.32 0.09 255)" />
                   <text x={60 + i * 110} y="8" textAnchor="middle" fontSize="9" fill="oklch(0.45 0.02 260)">
                     {tools[i].name}
                   </text>
                 </g>
               ))}
-              <circle cx="400" cy="120" r="10" fill="oklch(0.62 0.15 150)" />
-              <text x="400" y="138" textAnchor="middle" fontSize="10" fontWeight="600" fill="oklch(0.21 0.045 255)">
+              <circle cx="400" cy="120" r="10" fill="oklch(0.70 0.10 200)" />
+              <text x="400" y="138" textAnchor="middle" fontSize="10" fontWeight="600" fill="oklch(0.32 0.09 255)">
                 Single learning record · xAPI
               </text>
             </svg>
@@ -202,7 +202,7 @@ function Index() {
               ["No vendor lock-in", "Built entirely on open source. Self-host any time, no migration penalty."],
             ].map(([title, body]) => (
               <div key={title} className="check-row">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="oklch(0.62 0.15 150)" strokeWidth="2" className="mt-0.5 shrink-0">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="oklch(0.70 0.10 200)" strokeWidth="2" className="mt-0.5 shrink-0">
                   <path d="M5 12l5 5L20 7" />
                 </svg>
                 <div>
