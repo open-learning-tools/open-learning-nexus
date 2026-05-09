@@ -584,7 +584,14 @@ function Index() {
             </h2>
             <p className="mt-6 text-muted-foreground leading-relaxed">
               OLT contributes anonymized learning datasets to the{" "}
-              <span className="text-foreground font-medium">Massachusetts Data Commons</span>,
+              <a
+                href="https://aihub.masstech.org/data-commons-collaborative"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground font-medium underline underline-offset-4 decoration-primary/40 hover:decoration-primary transition-colors"
+              >
+                Massachusetts Data Commons
+              </a>,
               available to credentialed researchers under standard data-use agreements.
             </p>
             <a href="mailto:team@olt.academy" className="btn btn-primary mt-8">
