@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
 import oltLogo from "@/assets/olt-logo.png";
 import problemSilos from "@/assets/problem-silos.png";
+import scholarsomeLogo from "@/assets/scholarsome-logo.svg";
 import learningCrown from "@/assets/learning-crown.mp3";
 
 export const Route = createFileRoute("/")({
@@ -31,14 +32,59 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const tools = [
-  { name: "Hypothesis", desc: "Annotate textbooks and readings", icon: "M4 4h12l4 4v12H4z M16 4v4h4" },
-  { name: "PeerTube", desc: "Watch and engage with instructional video", icon: "M8 5v14l11-7z" },
-  { name: "CryptPad", desc: "Collaborate on documents and slides", icon: "M6 4h9l5 5v11H6z M14 4v6h6" },
-  { name: "Scholarsome", desc: "Practice with flashcards", icon: "M3 7h14v12H3z M7 4h14v12" },
-  { name: "H5P", desc: "Complete interactive quizzes", icon: "M9 11l3 3 7-7 M3 12a9 9 0 1018 0 9 9 0 00-18 0" },
-  { name: "code-server", desc: "Write and run code in the browser", icon: "M8 6l-6 6 6 6 M16 6l6 6-6 6 M14 4l-4 16" },
-  { name: "LibreChat", desc: "Learn with an AI tutor", icon: "M21 11a8 8 0 01-12.6 6.5L3 19l1.5-5.4A8 8 0 1121 11z" },
+type Tool = {
+  name: string;
+  desc: string;
+  icon: string;
+  logo?: string;
+  logoClass?: string;
+};
+
+const tools: Tool[] = [
+  {
+    name: "Hypothesis",
+    desc: "Annotate textbooks and readings",
+    logo: "https://d242fdlp0qlcia.cloudfront.net/uploads/brand/HypothesisIconColor.svg",
+    icon: "M4 4h12l4 4v12H4z M16 4v4h4",
+  },
+  {
+    name: "PeerTube",
+    desc: "Watch and engage with instructional video",
+    logo: "https://joinpeertube.org/img/peertube-logo-background.svg",
+    icon: "M8 5v14l11-7z",
+  },
+  {
+    name: "CryptPad",
+    desc: "Collaborate on documents and slides",
+    logo: "https://cdn.simpleicons.org/cryptpad/0087FF",
+    icon: "M6 4h9l5 5v11H6z M14 4v6h6",
+  },
+  {
+    name: "Scholarsome",
+    desc: "Practice with flashcards",
+    logo: scholarsomeLogo,
+    logoClass: "tool-logo-crop-left",
+    icon: "M3 7h14v12H3z M7 4h14v12",
+  },
+  {
+    name: "H5P",
+    desc: "Complete interactive quizzes",
+    logo: "https://cdn.worldvectorlogo.com/logos/h5p.svg",
+    logoClass: "tool-logo-wide",
+    icon: "M9 11l3 3 7-7 M3 12a9 9 0 1018 0 9 9 0 00-18 0",
+  },
+  {
+    name: "code-server",
+    desc: "Write and run code in the browser",
+    logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/code-server.png",
+    icon: "M8 6l-6 6 6 6 M16 6l6 6-6 6 M14 4l-4 16",
+  },
+  {
+    name: "LibreChat",
+    desc: "Learn with an AI tutor",
+    logo: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/librechat.svg",
+    icon: "M21 11a8 8 0 01-12.6 6.5L3 19l1.5-5.4A8 8 0 1121 11z",
+  },
 ];
 
 function Logo({ className = "", size = "md" }: { className?: string; size?: "md" | "lg" }) {
@@ -68,12 +114,19 @@ function Index() {
           }
         });
       },
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
     );
     els.forEach((el) => io.observe(el));
 
     const STORAGE_KEY = "olt:music-pref"; // "playing" | "paused"
     const pref = typeof localStorage !== "undefined" ? localStorage.getItem(STORAGE_KEY) : null;
+    const saveMusicPref = (value: "playing" | "paused") => {
+      try {
+        localStorage.setItem(STORAGE_KEY, value);
+      } catch {
+        /* Preference storage is nonessential; audio controls still work. */
+      }
+    };
 
     const audio = new Audio(learningCrown);
     audio.loop = true;
@@ -82,12 +135,12 @@ function Index() {
     audio.addEventListener("play", () => {
       setMusicStarted(true);
       setIsPlaying(true);
-      try { localStorage.setItem(STORAGE_KEY, "playing"); } catch {}
+      saveMusicPref("playing");
     });
     audio.addEventListener("pause", () => {
       setIsPlaying(false);
       if (userInitiatedRef.current) {
-        try { localStorage.setItem(STORAGE_KEY, "paused"); } catch {}
+        saveMusicPref("paused");
         userInitiatedRef.current = false;
       }
     });
@@ -144,7 +197,10 @@ function Index() {
     const a = audioRef.current;
     if (!a) return;
     userInitiatedRef.current = true;
-    if (a.paused) a.play().catch(() => { userInitiatedRef.current = false; });
+    if (a.paused)
+      a.play().catch(() => {
+        userInitiatedRef.current = false;
+      });
     else a.pause();
   };
 
@@ -155,10 +211,18 @@ function Index() {
         <div className="container-prose flex items-center justify-between py-4">
           <Logo />
           <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
-            <a href="#platform" className="hover:text-foreground transition-colors">Platform</a>
-            <a href="#schools" className="hover:text-foreground transition-colors">Schools</a>
-            <a href="#researchers" className="hover:text-foreground transition-colors">Researchers</a>
-            <a href="#open-source" className="hover:text-foreground transition-colors">Open Source</a>
+            <a href="#platform" className="hover:text-foreground transition-colors">
+              Platform
+            </a>
+            <a href="#schools" className="hover:text-foreground transition-colors">
+              Schools
+            </a>
+            <a href="#researchers" className="hover:text-foreground transition-colors">
+              Researchers
+            </a>
+            <a href="#open-source" className="hover:text-foreground transition-colors">
+              Open Source
+            </a>
           </nav>
           <div className="flex items-center gap-3">
             <button
@@ -170,7 +234,9 @@ function Index() {
               {isPlaying ? <Pause size={14} /> : <Play size={14} className="ml-0.5" />}
               {isPlaying && <span className="music-pulse" aria-hidden />}
             </button>
-            <a href="#demo" className="btn btn-primary text-xs px-4 py-2">Request a Demo</a>
+            <a href="#demo" className="btn btn-primary text-xs px-4 py-2">
+              Request a Demo
+            </a>
           </div>
         </div>
       </header>
@@ -189,25 +255,38 @@ function Index() {
           <div className="max-w-4xl hero-in">
             <p className="eyebrow mb-6">Open source learning analytics · olt.academy</p>
             <h1 className="display text-5xl md:text-7xl">
-              Every learning moment,<br />
+              Every learning moment,
+              <br />
               <span className="italic text-[color:var(--accent-amber)]">measured</span>
               <span className="caret" aria-hidden /> and understood.
             </h1>
             <p className="mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
               A unified, open source suite of seven learning tools — readings, video, documents,
-              flashcards, quizzes, coding environments, and AI tutoring — that captures rich behavioral
-              data across every learning surface, under one student identity.
+              flashcards, quizzes, coding environments, and AI tutoring — that captures rich
+              behavioral data across every learning surface, under one student identity.
             </p>
             <div className="mt-10 flex flex-wrap gap-3">
               <a href="#demo" className="btn btn-primary">
                 Request a Demo
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
                   <path d="M5 12h14M13 5l7 7-7 7" />
                 </svg>
               </a>
-              <a href="https://github.com/open-learning-tools" target="_blank" rel="noreferrer" className="btn btn-ghost">
+              <a
+                href="https://github.com/open-learning-tools"
+                target="_blank"
+                rel="noreferrer"
+                className="btn btn-ghost"
+              >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                  <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.34-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 015.79 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.41-5.27 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/>
+                  <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.34-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 015.79 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.41-5.27 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z" />
                 </svg>
                 View on GitHub
               </a>
@@ -215,30 +294,57 @@ function Index() {
           </div>
 
           {/* xAPI stream visualization */}
-          <div className="relative mt-20 mx-auto max-w-3xl hidden md:block reveal xapi-reveal" aria-hidden>
+          <div
+            className="relative mt-20 mx-auto max-w-3xl hidden md:block reveal xapi-reveal"
+            aria-hidden
+          >
             <svg viewBox="0 0 800 150" className="w-full overflow-visible">
               {[...Array(7)].map((_, i) => (
                 <line
                   key={i}
                   className="stream-draw"
                   style={{ animationDelay: `${0.2 + i * 0.12}s` }}
-                  x1={60 + i * 110} y1="20"
-                  x2="400" y2="120"
-                  stroke="oklch(0.32 0.09 255)" strokeWidth="1"
+                  x1={60 + i * 110}
+                  y1="20"
+                  x2="400"
+                  y2="120"
+                  stroke="oklch(0.32 0.09 255)"
+                  strokeWidth="1"
                 />
               ))}
               {[...Array(7)].map((_, i) => (
                 <g key={`n-${i}`} className="node-pop" style={{ animationDelay: `${i * 0.12}s` }}>
                   <circle cx={60 + i * 110} cy="20" r="6" fill="oklch(0.32 0.09 255)" />
-                  <text x={60 + i * 110} y="8" textAnchor="middle" fontSize="9" fill="oklch(0.45 0.02 260)">
+                  <text
+                    x={60 + i * 110}
+                    y="8"
+                    textAnchor="middle"
+                    fontSize="9"
+                    fill="oklch(0.45 0.02 260)"
+                  >
                     {tools[i].name}
                   </text>
                 </g>
               ))}
               <g className="record-pop">
                 <circle cx="400" cy="120" r="10" fill="oklch(0.70 0.10 200)" />
-                <circle cx="400" cy="120" r="10" fill="none" stroke="oklch(0.70 0.10 200)" strokeWidth="2" className="record-ring" />
-                <text x="400" y="142" textAnchor="middle" fontSize="10" fontWeight="600" fill="oklch(0.32 0.09 255)">
+                <circle
+                  cx="400"
+                  cy="120"
+                  r="10"
+                  fill="none"
+                  stroke="oklch(0.70 0.10 200)"
+                  strokeWidth="2"
+                  className="record-ring"
+                />
+                <text
+                  x="400"
+                  y="142"
+                  textAnchor="middle"
+                  fontSize="10"
+                  fontWeight="600"
+                  fill="oklch(0.32 0.09 255)"
+                >
                   Single learning record · xAPI
                 </text>
               </g>
@@ -251,10 +357,7 @@ function Index() {
       <section className="border-t hairline">
         <div className="container-prose py-24 md:py-32 reveal">
           <p className="eyebrow mb-6">The Problem</p>
-          <p className="display text-3xl md:text-4xl leading-tight max-w-4xl">
-            Today's learning runs on closed platforms. The data they generate is locked away from the people who could learn from it.
-          </p>
-          <div className="mt-12 rounded-lg overflow-hidden border hairline bg-secondary/30 problem-img-wrap">
+          <div className="mt-10 mx-auto max-w-4xl rounded-lg overflow-hidden border hairline bg-secondary/30 problem-img-wrap">
             <img
               src={problemSilos}
               alt="Fragmented learning data trapped in disconnected silos"
@@ -266,13 +369,14 @@ function Index() {
           </div>
           <div className="mt-12 grid md:grid-cols-2 gap-8 max-w-5xl">
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Students learn across Khan Academy, Google Docs, Quizlet, Canvas, and a dozen other apps —
-              each siloing its own behavioral data behind a proprietary API, or not capturing it at all.
-              Educational AI researchers are left with thin, fragmented signals.
+              Students learn across Khan Academy, Google Docs, Quizlet, Canvas, and a dozen other
+              apps — each siloing its own behavioral data behind a proprietary API, or not capturing
+              it at all. Educational AI researchers are left with thin, fragmented signals.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed">
               OLT is a hosted suite of open source learning tools, instrumented end-to-end and
-              purpose-built to give researchers the rich, unified learning data that educational AI needs.
+              purpose-built to give researchers the rich, unified learning data that educational AI
+              needs.
             </p>
           </div>
         </div>
@@ -311,13 +415,20 @@ function Index() {
       {/* Platform */}
       <section id="platform" className="relative overflow-hidden border-t hairline bg-secondary/40">
         <div className="amb-dots" aria-hidden>
-          <span /><span /><span /><span /><span /><span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
         </div>
         <div className="container-prose relative py-24 md:py-32">
           <div className="max-w-2xl mb-14 reveal">
             <p className="eyebrow mb-4">The Platform</p>
             <h2 className="display text-4xl md:text-5xl">
-              <span className="heading-underline">Seven open source tools.</span><br />One coherent learning record.
+              <span className="heading-underline">Seven open source tools.</span>
+              <br />
+              One coherent learning record.
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -328,9 +439,28 @@ function Index() {
                 style={{ ["--reveal-delay" as string]: `${i * 70}ms` }}
               >
                 <div className="tool-icon mb-5">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d={t.icon} />
-                  </svg>
+                  {t.logo ? (
+                    <img
+                      src={t.logo}
+                      alt=""
+                      loading="lazy"
+                      className={`tool-logo ${t.logoClass ?? ""}`}
+                    />
+                  ) : (
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden
+                    >
+                      <path d={t.icon} />
+                    </svg>
+                  )}
                 </div>
                 <h3 className="font-semibold text-lg">{t.name}</h3>
                 <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">{t.desc}</p>
@@ -341,14 +471,20 @@ function Index() {
             <p className="text-base md:text-lg text-foreground leading-relaxed">
               Every interaction across all seven tools flows into a single learning record —
               attributed to one student, in one open standard{" "}
-              <span className="font-mono text-sm bg-background border hairline px-1.5 py-0.5 rounded">xAPI</span>.
+              <span className="font-mono text-sm bg-background border hairline px-1.5 py-0.5 rounded">
+                xAPI
+              </span>
+              .
             </p>
           </div>
         </div>
       </section>
 
       {/* For Schools */}
-      <section id="schools" className="relative overflow-hidden bg-[color:var(--navy)] text-[color:var(--navy-foreground)]">
+      <section
+        id="schools"
+        className="on-navy relative overflow-hidden bg-[color:var(--navy)] text-[color:var(--navy-foreground)]"
+      >
         <div className="aurora" aria-hidden />
         <div className="container-prose relative py-24 md:py-32 grid md:grid-cols-12 gap-10">
           <div className="md:col-span-5 reveal">
@@ -357,24 +493,54 @@ function Index() {
               <span className="heading-underline">Hosted, integrated,</span> and yours to keep.
             </h2>
             <p className="mt-6 text-base text-[color:var(--navy-foreground)]/70 leading-relaxed">
-              Pricing: <span className="text-[color:var(--accent-amber)]">Contact us for institutional pricing.</span>
+              Pricing:{" "}
+              <span className="text-[color:var(--accent-amber)]">
+                Contact us for institutional pricing.
+              </span>
             </p>
             <a href="#demo" className="btn btn-on-navy-primary mt-8">
               Request a Demo
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <path d="M5 12h14M13 5l7 7-7 7" />
               </svg>
             </a>
           </div>
           <div className="md:col-span-7 reveal">
             {[
-              ["Hosted solution, fully managed", "We run the infrastructure. You focus on teaching."],
-              ["Single sign-on across all tools", "One account per student — no shuffling between logins."],
-              ["FERPA-compliant data handling", "Educational records stay protected, by design and by policy."],
-              ["No vendor lock-in", "Built entirely on open source. Self-host any time, no migration penalty."],
+              [
+                "Hosted solution, fully managed",
+                "We run the infrastructure. You focus on teaching.",
+              ],
+              [
+                "Single sign-on across all tools",
+                "One account per student — no shuffling between logins.",
+              ],
+              [
+                "FERPA-compliant data handling",
+                "Educational records stay protected, by design and by policy.",
+              ],
+              [
+                "No vendor lock-in",
+                "Built entirely on open source. Self-host any time, no migration penalty.",
+              ],
             ].map(([title, body]) => (
               <div key={title} className="check-row">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="oklch(0.70 0.10 200)" strokeWidth="2" className="mt-0.5 shrink-0">
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="oklch(0.70 0.10 200)"
+                  strokeWidth="2"
+                  className="mt-0.5 shrink-0"
+                >
                   <path d="M5 12l5 5L20 7" />
                 </svg>
                 <div>
@@ -390,13 +556,19 @@ function Index() {
       {/* For Researchers */}
       <section id="researchers" className="relative overflow-hidden border-t hairline">
         <div className="amb-dots" aria-hidden>
-          <span /><span /><span /><span /><span /><span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
         </div>
         <div className="container-prose relative py-24 md:py-32 grid md:grid-cols-12 gap-10">
           <div className="md:col-span-5 reveal">
             <p className="eyebrow">For Researchers</p>
             <h2 className="display text-4xl md:text-5xl mt-4">
-              <span className="heading-underline">Anonymized learning data,</span> openly accessible.
+              <span className="heading-underline">Anonymized learning data,</span> openly
+              accessible.
             </h2>
             <p className="mt-6 text-muted-foreground leading-relaxed">
               OLT contributes anonymized learning datasets to the{" "}
@@ -406,13 +578,15 @@ function Index() {
             <a href="mailto:team@olt.academy" className="btn btn-primary mt-8">
               Request Data Access
             </a>
-            <p className="text-xs text-muted-foreground mt-4">
+            <p className="text-[0.68rem] leading-snug text-muted-foreground mt-3">
               Data shared in accordance with FERPA and IRB guidelines.
             </p>
           </div>
           <div className="md:col-span-7 space-y-6 reveal">
             <div>
-              <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">Data covers</h4>
+              <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">
+                Data covers
+              </h4>
               <ul className="space-y-2 text-base">
                 {[
                   "Behavioral engagement across reading, video, and code",
@@ -420,25 +594,33 @@ function Index() {
                   "Demographic context, anonymized at the cohort level",
                   "Cross-tool learning patterns under a unified identity",
                 ].map((t, i) => (
-                  <li key={t} className="flex gap-3">
+                  <li key={t} className="flex items-start gap-3">
                     <span
-                      className="text-[color:var(--accent-amber)] dash-pulse"
+                      className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--accent-amber)] dash-pulse"
                       style={{ animationDelay: `${i * 0.3}s` }}
-                    >—</span> {t}
+                      aria-hidden
+                    />
+                    {t}
                   </li>
                 ))}
               </ul>
             </div>
             <div className="border-t hairline pt-6">
-              <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">Useful for</h4>
+              <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">
+                Useful for
+              </h4>
               <div className="flex flex-wrap gap-2">
-                {["Learning science", "AI model training", "Educational equity research"].map((t, i) => (
-                  <span
-                    key={t}
-                    className="text-sm border hairline rounded-full px-3 py-1.5 pill-float"
-                    style={{ animationDelay: `${i * 0.4}s` }}
-                  >{t}</span>
-                ))}
+                {["Learning science", "AI model training", "Educational equity research"].map(
+                  (t, i) => (
+                    <span
+                      key={t}
+                      className="text-sm rounded-full px-3 py-1.5 bg-[color:var(--navy)] text-[color:var(--cream)] pill-float"
+                      style={{ animationDelay: `${i * 0.4}s` }}
+                    >
+                      {t}
+                    </span>
+                  ),
+                )}
               </div>
             </div>
           </div>
@@ -446,36 +628,53 @@ function Index() {
       </section>
 
       {/* Open Source */}
-      <section id="open-source" className="relative overflow-hidden border-t hairline bg-secondary/40">
+      <section
+        id="open-source"
+        className="relative overflow-hidden border-t hairline bg-secondary/40"
+      >
         <div className="amb-dots" aria-hidden>
-          <span /><span /><span /><span /><span /><span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
         </div>
         <div className="container-prose relative py-24 md:py-32">
           <div className="grid md:grid-cols-12 gap-10">
             <div className="md:col-span-5 reveal">
               <p className="eyebrow">Open Source</p>
               <h2 className="display text-4xl md:text-5xl mt-4">
-                <span className="heading-underline">MIT-licensed.</span><br />Forkable. Yours.
+                <span className="heading-underline">MIT-licensed.</span>
+                <br />
+                Forkable. Yours.
               </h2>
             </div>
             <div className="md:col-span-7 reveal">
               <p className="text-lg text-muted-foreground leading-relaxed">
-                OLT Academy is MIT-licensed open source — free to use, modify, and self-host
-                without restriction. The full instrumentation layer, LRS pipeline, and SSO
-                wrapper live in the public repository.
+                OLT Academy is MIT-licensed open source — free to use, modify, and self-host without
+                restriction. The full instrumentation layer, LRS pipeline, and SSO wrapper live in
+                the public repository.
               </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <a href="https://github.com/open-learning-tools" target="_blank" rel="noreferrer" className="btn btn-primary">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                    <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.34-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 015.79 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.41-5.27 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/>
-                  </svg>
-                  View on GitHub
-                </a>
-                <a href="#" className="btn btn-ghost">Read the docs</a>
-              </div>
               <p className="mt-8 text-sm text-muted-foreground italic border-l-2 border-[color:var(--accent-amber)] pl-4">
                 Want to contribute instrumentation for a new tool? We welcome pull requests.
               </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a
+                  href="https://github.com/open-learning-tools"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn btn-primary"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                    <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.34-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 015.79 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.41-5.27 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z" />
+                  </svg>
+                  View on GitHub
+                </a>
+                <a href="#" className="btn btn-ghost">
+                  Read the docs
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -489,11 +688,17 @@ function Index() {
         </div>
         <div className="container-prose relative py-24 md:py-28 text-center reveal">
           <h2 className="display text-4xl md:text-6xl max-w-3xl mx-auto">
-            <span className="shimmer-text">See what your students' learning actually looks like.</span>
+            <span className="shimmer-text">
+              See what your students' learning actually looks like.
+            </span>
           </h2>
           <div className="mt-10 flex justify-center gap-3 flex-wrap">
-            <a href="mailto:team@olt.academy" className="btn btn-primary">Request a Demo</a>
-            <a href="mailto:team@olt.academy" className="btn btn-ghost">Request Data Access</a>
+            <a href="mailto:team@olt.academy" className="btn btn-primary">
+              Request a Demo
+            </a>
+            <a href="mailto:team@olt.academy" className="btn btn-ghost">
+              Request Data Access
+            </a>
           </div>
         </div>
       </section>
@@ -512,22 +717,54 @@ function Index() {
             <div className="md:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-6 text-sm">
               <div>
                 <p className="font-semibold mb-3">Project</p>
-                <a href="https://github.com/open-learning-tools" className="block text-muted-foreground hover:text-foreground py-1">GitHub</a>
-                <a href="#open-source" className="block text-muted-foreground hover:text-foreground py-1">License</a>
+                <a
+                  href="https://github.com/open-learning-tools"
+                  className="block text-muted-foreground hover:text-foreground py-1"
+                >
+                  GitHub
+                </a>
+                <a
+                  href="#open-source"
+                  className="block text-muted-foreground hover:text-foreground py-1"
+                >
+                  License
+                </a>
               </div>
               <div>
                 <p className="font-semibold mb-3">Schools</p>
-                <a href="#demo" className="block text-muted-foreground hover:text-foreground py-1">Request Demo</a>
-                <a href="#schools" className="block text-muted-foreground hover:text-foreground py-1">Pricing</a>
+                <a href="#demo" className="block text-muted-foreground hover:text-foreground py-1">
+                  Request Demo
+                </a>
+                <a
+                  href="#schools"
+                  className="block text-muted-foreground hover:text-foreground py-1"
+                >
+                  Pricing
+                </a>
               </div>
               <div>
                 <p className="font-semibold mb-3">Research</p>
-                <a href="mailto:team@olt.academy" className="block text-muted-foreground hover:text-foreground py-1">Data Access</a>
-                <a href="#researchers" className="block text-muted-foreground hover:text-foreground py-1">Datasets</a>
+                <a
+                  href="mailto:team@olt.academy"
+                  className="block text-muted-foreground hover:text-foreground py-1"
+                >
+                  Data Access
+                </a>
+                <a
+                  href="#researchers"
+                  className="block text-muted-foreground hover:text-foreground py-1"
+                >
+                  Datasets
+                </a>
               </div>
               <div>
                 <p className="font-semibold mb-3">Contact</p>
-                <a href="mailto:team@olt.academy" className="block text-muted-foreground hover:text-foreground py-1">team@olt.academy</a>
+                <a
+                  href="mailto:team@olt.academy"
+                  className="block text-muted-foreground hover:text-foreground py-1"
+                >
+                  team@olt.academy
+                </a>
               </div>
             </div>
           </div>
