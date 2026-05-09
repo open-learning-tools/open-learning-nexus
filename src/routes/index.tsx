@@ -53,6 +53,7 @@ function Logo({ className = "", size = "md" }: { className?: string; size?: "md"
 
 function Index() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const userInitiatedRef = useRef(false);
   const [musicStarted, setMusicStarted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -71,6 +72,9 @@ function Index() {
     );
     els.forEach((el) => io.observe(el));
 
+    const STORAGE_KEY = "olt:music-pref"; // "playing" | "paused"
+    const pref = typeof localStorage !== "undefined" ? localStorage.getItem(STORAGE_KEY) : null;
+
     const audio = new Audio(learningCrown);
     audio.loop = true;
     audio.volume = 0.5;
@@ -78,23 +82,39 @@ function Index() {
     audio.addEventListener("play", () => {
       setMusicStarted(true);
       setIsPlaying(true);
+      try { localStorage.setItem(STORAGE_KEY, "playing"); } catch {}
     });
-    audio.addEventListener("pause", () => setIsPlaying(false));
+    audio.addEventListener("pause", () => {
+      setIsPlaying(false);
+      if (userInitiatedRef.current) {
+        try { localStorage.setItem(STORAGE_KEY, "paused"); } catch {}
+        userInitiatedRef.current = false;
+      }
+    });
+
+    // If the user previously had it playing, surface the toggle right away.
+    if (pref === "playing") setMusicStarted(true);
+    // If they explicitly paused, never auto-start — but still show the toggle.
+    if (pref === "paused") setMusicStarted(true);
 
     let started = false;
+    const startPlayback = () => {
+      audio.play().catch(() => {
+        const onGesture = () => {
+          audio.play().catch(() => {});
+          window.removeEventListener("pointerdown", onGesture);
+          window.removeEventListener("keydown", onGesture);
+        };
+        window.addEventListener("pointerdown", onGesture, { once: true });
+        window.addEventListener("keydown", onGesture, { once: true });
+      });
+    };
+
     const tryPlay = () => {
       if (started) return;
       if (window.scrollY > 0) {
         started = true;
-        audio.play().catch(() => {
-          const onGesture = () => {
-            audio.play().catch(() => {});
-            window.removeEventListener("pointerdown", onGesture);
-            window.removeEventListener("keydown", onGesture);
-          };
-          window.addEventListener("pointerdown", onGesture, { once: true });
-          window.addEventListener("keydown", onGesture, { once: true });
-        });
+        if (pref !== "paused") startPlayback();
         window.removeEventListener("scroll", tryPlay);
         window.removeEventListener("wheel", tryPlay);
         window.removeEventListener("touchmove", tryPlay);
@@ -103,6 +123,13 @@ function Index() {
     window.addEventListener("scroll", tryPlay, { passive: true });
     window.addEventListener("wheel", tryPlay, { passive: true });
     window.addEventListener("touchmove", tryPlay, { passive: true });
+
+    // If the user had it playing on a previous load, try to resume immediately
+    // (will fall back to first gesture if autoplay is blocked).
+    if (pref === "playing") {
+      started = true;
+      startPlayback();
+    }
 
     return () => {
       io.disconnect();
@@ -116,7 +143,8 @@ function Index() {
   const toggleMusic = () => {
     const a = audioRef.current;
     if (!a) return;
-    if (a.paused) a.play().catch(() => {});
+    userInitiatedRef.current = true;
+    if (a.paused) a.play().catch(() => { userInitiatedRef.current = false; });
     else a.pause();
   };
 
