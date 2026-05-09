@@ -254,12 +254,15 @@ function Index() {
       </section>
 
       {/* For Researchers */}
-      <section id="researchers" className="border-t hairline">
-        <div className="container-prose py-24 md:py-32 grid md:grid-cols-12 gap-10">
-          <div className="md:col-span-5">
+      <section id="researchers" className="relative overflow-hidden border-t hairline">
+        <div className="amb-dots" aria-hidden>
+          <span /><span /><span /><span /><span /><span />
+        </div>
+        <div className="container-prose relative py-24 md:py-32 grid md:grid-cols-12 gap-10">
+          <div className="md:col-span-5 reveal">
             <p className="eyebrow">For Researchers</p>
             <h2 className="display text-4xl md:text-5xl mt-4">
-              Anonymized learning data, openly accessible.
+              <span className="heading-underline">Anonymized learning data,</span> openly accessible.
             </h2>
             <p className="mt-6 text-muted-foreground leading-relaxed">
               OLT contributes anonymized learning datasets to the{" "}
@@ -273,21 +276,34 @@ function Index() {
               Data shared in accordance with FERPA and IRB guidelines.
             </p>
           </div>
-          <div className="md:col-span-7 space-y-6">
+          <div className="md:col-span-7 space-y-6 reveal">
             <div>
               <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">Data covers</h4>
               <ul className="space-y-2 text-base">
-                <li className="flex gap-3"><span className="text-[color:var(--accent-amber)]">—</span> Behavioral engagement across reading, video, and code</li>
-                <li className="flex gap-3"><span className="text-[color:var(--accent-amber)]">—</span> Assessment outcomes from quizzes and flashcard practice</li>
-                <li className="flex gap-3"><span className="text-[color:var(--accent-amber)]">—</span> Demographic context, anonymized at the cohort level</li>
-                <li className="flex gap-3"><span className="text-[color:var(--accent-amber)]">—</span> Cross-tool learning patterns under a unified identity</li>
+                {[
+                  "Behavioral engagement across reading, video, and code",
+                  "Assessment outcomes from quizzes and flashcard practice",
+                  "Demographic context, anonymized at the cohort level",
+                  "Cross-tool learning patterns under a unified identity",
+                ].map((t, i) => (
+                  <li key={t} className="flex gap-3">
+                    <span
+                      className="text-[color:var(--accent-amber)] dash-pulse"
+                      style={{ animationDelay: `${i * 0.3}s` }}
+                    >—</span> {t}
+                  </li>
+                ))}
               </ul>
             </div>
             <div className="border-t hairline pt-6">
               <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">Useful for</h4>
               <div className="flex flex-wrap gap-2">
-                {["Learning science", "AI model training", "Educational equity research"].map((t) => (
-                  <span key={t} className="text-sm border hairline rounded-full px-3 py-1.5">{t}</span>
+                {["Learning science", "AI model training", "Educational equity research"].map((t, i) => (
+                  <span
+                    key={t}
+                    className="text-sm border hairline rounded-full px-3 py-1.5 pill-float"
+                    style={{ animationDelay: `${i * 0.4}s` }}
+                  >{t}</span>
                 ))}
               </div>
             </div>
