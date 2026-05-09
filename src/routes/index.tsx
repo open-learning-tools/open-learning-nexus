@@ -144,7 +144,7 @@ function Index() {
 
       {/* Problem */}
       <section className="border-t hairline">
-        <div className="container-prose py-24 md:py-32 grid md:grid-cols-12 gap-10">
+        <div className="container-prose py-24 md:py-32 grid md:grid-cols-12 gap-10 reveal">
           <div className="md:col-span-4">
             <p className="eyebrow">The Problem</p>
           </div>
@@ -168,15 +168,19 @@ function Index() {
       {/* Platform */}
       <section id="platform" className="border-t hairline bg-secondary/40">
         <div className="container-prose py-24 md:py-32">
-          <div className="max-w-2xl mb-14">
+          <div className="max-w-2xl mb-14 reveal">
             <p className="eyebrow mb-4">The Platform</p>
             <h2 className="display text-4xl md:text-5xl">
               Seven open source tools.<br />One coherent learning record.
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {tools.map((t) => (
-              <div key={t.name} className="tool-card">
+            {tools.map((t, i) => (
+              <div
+                key={t.name}
+                className="tool-card reveal"
+                style={{ ["--reveal-delay" as string]: `${i * 70}ms` }}
+              >
                 <div className="tool-icon mb-5">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d={t.icon} />
